@@ -1,0 +1,41 @@
+name: Add Daily Issue
+run-name: PR check rename ${{github.run_number}}
+on:
+  schedule:
+    # 午前5時(JST)
+    - cron: "0 20 * * *"
+permissions:
+  contents: read
+  issues: write
+jobs:
+  add-daily-issue:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Create an Issue
+        run: |
+          today_date=$(TZ=Asia/Tokyo date '+%Y-%m-%d')
+          gh issue create \
+            --title "${today_date}" \
+            --assignee "$ASSIGNEES" \
+            --label "$LABELS" \
+            --body "$BODY")
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BODY: |
+            - [ ] 風呂
+
+            ## やったこと
+            - 
+
+            ## やりたいこと
+            - 
+
+            ## おもしろかったこと
+            - 
+
+            ご唱和ください！つくる　おもしろいことをする
+          ASSIGNEES: ""
+          LABELS: ""
