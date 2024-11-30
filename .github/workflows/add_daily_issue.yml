@@ -1,5 +1,5 @@
 name: Add Daily Issue
-run-name: PR check rename ${{github.run_number}}
+run-name: Add Daily Issue ${{github.run_number}}
 on:
   schedule:
     # 午前5時(JST)
