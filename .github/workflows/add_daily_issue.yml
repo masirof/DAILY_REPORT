@@ -22,7 +22,7 @@ jobs:
             --title "${today_date}" \
             --assignee "$ASSIGNEES" \
             --label "$LABELS" \
-            --body "$BODY")
+            --body "$BODY"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BODY: |
