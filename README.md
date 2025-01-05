@@ -45,19 +45,29 @@ https://zenn.dev/icck/articles/5bc716bbe18a3a
 
 - Diagnosis → SQL Statement でクエリの実行速度を見れる
 
+- 右上の設定歯車 → show syste database schema を押すとschema一覧にTiDB自体のシステム系スキーマが表示される
+
+- 構成
 DB > Table
 
-<!-- DB確認 -->
+- DB指定
+```
+use [DB名]
+```
+
+- DB確認
+```
 SHOW DATABASES
+```
 
-- INFORMATION_SCHEMA
-- PERFORMANCE_SCHEMA
-- mysql
-上以外が作成したDB
+    - INFORMATION_SCHEMA
+    - PERFORMANCE_SCHEMA
+    - mysql
+    上以外が作成したDB
 
-<!-- テーブル確認 -->
+- テーブル確認
+```
 use test;
 SHOW TABLES
+```
 
-<!-- DB指定 -->
-use [DB名]
