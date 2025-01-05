@@ -56,5 +56,8 @@ SHOW DATABASES
 上以外が作成したDB
 
 <!-- テーブル確認 -->
+use test;
+SHOW TABLES
+
 <!-- DB指定 -->
 use [DB名]
