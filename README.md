@@ -47,7 +47,23 @@ https://zenn.dev/icck/articles/5bc716bbe18a3a
 
 - 右上の設定歯車 → show syste database schema を押すとschema一覧にTiDB自体のシステム系スキーマが表示される
 
-- 構成
+- **TiDB Editorでは各クエリごとに区分けされているので、実行をしたときにファイル内の全コードを実行しているわけではない　クエリとして解釈できるコードブロックごとに実行する　そのため複数行に複数クエリを記入することが可能 (ちゃんと文末を;で区切ること)**
+
+
+- **全実行する倍は、ctrl+Aで全選択してから実行を行う**
+
+
+## SQL自体の関数のカテゴリ
+- DDL (データ定義言語): データベース、テーブル、ビュー、インデックスなどのデータベース オブジェクトを定義するために使用されます。
+- DML (データ操作言語): アプリケーション関連のレコードを操作するために使用されます。
+- DQL (データ クエリ言語): 条件付きフィルタリング後にレコードをクエリするために使用されます。
+- DCL (データ制御言語): アクセス権限とセキュリティ レベルを定義するために使用されます。
+
+一般的な DDL 機能は、オブジェクト (テーブルやインデックスなど) の作成、変更、削除です。対応するコマンドはCREATE 、 ALTER 、 DROPです。
+
+## SQL
+
+- 構成  
 DB > Table
 
 - DB指定
@@ -60,14 +76,44 @@ use [DB名]
 SHOW DATABASES
 ```
 
-    - INFORMATION_SCHEMA
-    - PERFORMANCE_SCHEMA
-    - mysql
-    上以外が作成したDB
+- INFORMATION_SCHEMA
+- PERFORMANCE_SCHEMA
+- mysql
+上以外が作成したDB
 
 - テーブル確認
 ```
 use test;
 SHOW TABLES
+
+or 
+
+show TABLES from test
 ```
 
+- daily用DB作成
+```
+CREATE DATABASE `daily`;
+
+
+-- zerofillは非推奨になった
+use daily;
+CREATE TABLE
+  `bath` (
+    `id` int(8) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `date` date NOT NULL,
+    `is_bathed` BOOLEAN NOT NULL
+  );
+
+DROP TABLE bath;
+
+INSERT INTO
+  `bath` (date, is_bathed)
+VALUES
+  ('2000-01-01', TRUE);
+
+SELECT
+  *
+FROM
+  `bath`;
+```
