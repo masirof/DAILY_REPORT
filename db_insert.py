@@ -1,4 +1,5 @@
 import os
+import pymysql
 from pymysql import Connection
 from pymysql.cursors import DictCursor
 
