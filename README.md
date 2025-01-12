@@ -117,3 +117,8 @@ SELECT
 FROM
   `bath`;
 ```
+
+
+# Actions
+Actionsでボタンを押したらpythonが動く
+PythonでDBにデータをinsert

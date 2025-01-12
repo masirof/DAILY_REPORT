@@ -1,0 +1,29 @@
+name: DB Insert
+run-name: DB Insert ${{github.run_number}}
+on:
+  # schedule:
+  #   # 午前5時(JST)
+  #   - cron: "0 20 * * *"
+  workflow_dispatch:
+permissions:
+  contents: read
+  issues: write
+jobs:
+  db-insert:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Run Python
+          run: python sample.py
