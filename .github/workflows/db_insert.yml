@@ -25,6 +25,9 @@ jobs:
         run: |
           pip install -r requirements.txt
 
+      - name: Save CA certificate
+        run: echo "${{ secrets.TIDB_CA }}" > tidb_ca.pem
+
       - name: Run Python
         env:
           TIDB_HOST: ${{secrets.TIDB_HOST}}
@@ -32,5 +35,5 @@ jobs:
           TIDB_USER: ${{secrets.TIDB_USER}}
           TIDB_PASSWORD: ${{secrets.TIDB_PASSWORD}}
           TIDB_DB_NAME: ${{secrets.TIDB_DB_NAME}}
-          TIDB_CA_PATH: ${{secrets.TIDB_CA_PATH}}
+          TIDB_CA_PATH: tidb_ca.pem
         run: python db_insert.py

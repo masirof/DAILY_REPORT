@@ -39,4 +39,4 @@ def get_connection(autocommit: bool = True) -> Connection:
 with get_connection(autocommit=True) as conn:
     with conn.cursor() as cur:
         cur.execute("SELECT * FROM bath;")
-        print(cursor.fetchall())
+        print(cur.fetchall())
