@@ -9,7 +9,7 @@ from pymysql.cursors import DictCursor
 
 # actionsのsecretsに登録した環境変数の呼び出し
 TIDB_HOST = os.environ.get("TIDB_HOST")
-TIDB_PORT = os.environ.get("TIDB_PORT")
+TIDB_PORT = int(os.environ.get("TIDB_PORT"))
 TIDB_USER = os.environ.get("TIDB_USER")
 TIDB_PASSWORD = os.environ.get("TIDB_PASSWORD")
 TIDB_DB_NAME = os.environ.get("TIDB_DB_NAME")
