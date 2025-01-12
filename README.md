@@ -122,3 +122,10 @@ FROM
 # Actions
 Actionsでボタンを押したらpythonが動く
 PythonでDBにデータをinsert
+
+ライブラリはpymysqlを使用
+
+[pythonからdbに接続](https://zenn.dev/icck/articles/c4344f75460b53)
+[codespacesからpythonを実行](https://docs.github.com/ja/codespaces/setting-up-your-project-for-codespaces/adding-a-dev-container-configuration/setting-up-your-python-project-for-codespaces#step-1-open-the-project-in-a-codespace)
+
+[actionsからgithub secret呼び出し、pythonで使用](https://qiita.com/Wallaby19/items/7a9f2e514cd2e10d8b42)
