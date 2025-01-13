@@ -3,6 +3,8 @@ import pymysql
 from pymysql import Connection
 from pymysql.cursors import DictCursor
 import subprocess
+import csv
+from io import StringIO
 
 # MySQLDBとの接続
 # SQLAlchemyはORMで便利に操作できそうだが、SQLのクエリを学習したいため
@@ -56,6 +58,10 @@ cmd = 'gh issue list --repo https://github.com/masirof/DAILY_REPORT.git --author
 process = (subprocess.Popen(cmd, stdout=subprocess.PIPE,
                            shell=True).communicate()[0]).decode('utf-8')
 print('コマンドは\n'+process+'です')#何かしらの処理
+csv_output = StringIO()
+csv_writer = csv.writer(csv_output)
+print(csv_writer[0])
+
 
 # get issue body(return:json)
 # run: gh issue view --repo https://github.com/masirof/DAILY_REPORT.git --author github-actions[bot] --json title,body

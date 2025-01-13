@@ -1,12 +1,14 @@
 # DAILY_REPORT
+
 日報をIssuesに書きます。
 
 ## 予定:
+
 - 入浴履歴ダッシュボード
 - Github Pagesでサイト化
 
-
 # 入浴履歴ダッシュボードどうしよ
+
 - Grafana DBにクエリを投げてデータをグラフとして可視化するツール
 - Prometheus サーバーからリソース情報を取得して監視する。リミットを決められアラートを出せる
 
@@ -24,36 +26,30 @@ DBのクラウドサービスをDBaaSというらしい
 SaaS的な文脈でのストレージとデータベースって違うんですね...(GoogleDriveとDBみたいな...)
 
 - TiDB:
-Serverlessは「みんなで仲良くつかおう」に対して、Dedicatedは「専有で使おう」になります。AWS以外でGCPが選択できる。Node、CPU、RAMのチューニングができるというのが魅力ですね。料金は少しお高くなります。データは完全に利用者しか見えなくなりPingCAP様でも一切見えなくなる
-https://zenn.dev/icck/articles/5bc716bbe18a3a
+  Serverlessは「みんなで仲良くつかおう」に対して、Dedicatedは「専有で使おう」になります。AWS以外でGCPが選択できる。Node、CPU、RAMのチューニングができるというのが魅力ですね。料金は少しお高くなります。データは完全に利用者しか見えなくなりPingCAP様でも一切見えなくなる
+  https://zenn.dev/icck/articles/5bc716bbe18a3a
 
 参考:
 睡眠
 ヘルスケア
 
 # TiDB Serverless入門
+
 - https://docs.pingcap.com/ja/tidb/stable/basic-sql-operations
 - https://zenn.dev/icck/articles/5bc716bbe18a3a
 - https://qiita.com/urachooooooo/items/8a5a0c9ed4bab551231a
-
 - Dedicated 専有でAWS等のクラウドを使える(セキュリティ高)
 - Serverless みんなでAWSのプールを共有する
-
 - DB Table 作成 クラスタ内のSQL Editor
-たぶんMySQLで書く?
+  たぶんMySQLで書く?
 - SQL Editor内の左矢印(Expand)を押すとSchemeが見れる
-
 - Diagnosis → SQL Statement でクエリの実行速度を見れる
-
 - 右上の設定歯車 → show syste database schema を押すとschema一覧にTiDB自体のシステム系スキーマが表示される
-
 - **TiDB Editorでは各クエリごとに区分けされているので、実行をしたときにファイル内の全コードを実行しているわけではない　クエリとして解釈できるコードブロックごとに実行する　そのため複数行に複数クエリを記入することが可能 (ちゃんと文末を;で区切ること)**
-
-
 - **全実行する倍は、ctrl+Aで全選択してから実行を行う**
 
-
 ## SQL自体の関数のカテゴリ
+
 - DDL (データ定義言語): データベース、テーブル、ビュー、インデックスなどのデータベース オブジェクトを定義するために使用されます。
 - DML (データ操作言語): アプリケーション関連のレコードを操作するために使用されます。
 - DQL (データ クエリ言語): 条件付きフィルタリング後にレコードをクエリするために使用されます。
@@ -63,15 +59,15 @@ https://zenn.dev/icck/articles/5bc716bbe18a3a
 
 ## SQL
 
-- 構成  
-DB > Table
-
+- 構成DB > Table
 - DB指定
+
 ```
 use [DB名]
 ```
 
 - DB確認
+
 ```
 SHOW DATABASES
 ```
@@ -79,9 +75,9 @@ SHOW DATABASES
 - INFORMATION_SCHEMA
 - PERFORMANCE_SCHEMA
 - mysql
-上以外が作成したDB
-
+  上以外が作成したDB
 - テーブル確認
+
 ```
 use test;
 SHOW TABLES
@@ -92,6 +88,7 @@ show TABLES from test
 ```
 
 - daily用DB作成
+
 ```
 CREATE DATABASE `daily`;
 
@@ -118,8 +115,8 @@ FROM
   `bath`;
 ```
 
-
 # Actions
+
 Actionsでボタンを押したらpythonが動く
 PythonでDBにデータをinsert
 ライブラリはpymysqlを使用
@@ -133,3 +130,30 @@ insert
 [codespacesからpythonを実行](https://docs.github.com/ja/codespaces/setting-up-your-project-for-codespaces/adding-a-dev-container-configuration/setting-up-your-python-project-for-codespaces#step-1-open-the-project-in-a-codespace)
 
 [actionsからgithub secret呼び出し、pythonで使用](https://qiita.com/Wallaby19/items/7a9f2e514cd2e10d8b42)
+
+
+# python
+
+github codespaceで頑張ってたけど、ghコマンドをcodespaceに入れる方法がわからず、ローカルでpython環境を作成する
+
+```
+sudo apt update
+sudo apt install python3.12 -y
+python3 --version
+sudo apt install python3-pip
+
+# uv
+wget -qO- https://astral.sh/uv/install.sh | sh
+# curl -LsSf https://astral.sh/uv/install.sh | sh
+
+uv init --python 3.12
+# uv sync
+uv venv
+
+
+source ./.venv/bin/activate
+uv add hoge
+
+```
+
+#
