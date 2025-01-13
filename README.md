@@ -122,8 +122,12 @@ FROM
 # Actions
 Actionsでボタンを押したらpythonが動く
 PythonでDBにデータをinsert
-
 ライブラリはpymysqlを使用
+
+issueからテキスト(markdown)を取得
+パース
+markdownをパース?
+insert
 
 [pythonからdbに接続](https://zenn.dev/icck/articles/c4344f75460b53)
 [codespacesからpythonを実行](https://docs.github.com/ja/codespaces/setting-up-your-project-for-codespaces/adding-a-dev-container-configuration/setting-up-your-python-project-for-codespaces#step-1-open-the-project-in-a-codespace)
