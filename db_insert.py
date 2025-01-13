@@ -38,5 +38,6 @@ def get_connection(autocommit: bool = True) -> Connection:
 
 with get_connection(autocommit=True) as conn:
     with conn.cursor() as cur:
-        cur.execute("SELECT * FROM bath;")
-        print(cur.fetchall())
+        # cur.execute("SELECT * FROM bath;")
+        cur.execute("INSERT INTO bath (date, is_bathed) VALUES('2000-01-02', TRUE)")
+        # print(cur.fetchall())
