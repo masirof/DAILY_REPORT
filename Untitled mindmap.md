@@ -4,8 +4,9 @@ mindmap-plugin: basic
 
 ---
 
-# mindmap-plugin: basic
+# マインドマップ
 
 ## m
 - a
+- このマインドマップ使いにくいねｗ
 - b
