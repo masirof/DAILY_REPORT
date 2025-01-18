@@ -20,6 +20,64 @@
               "icon": "lucide-file",
               "title": "The bucket list 2025"
             }
+          },
+          {
+            "id": "d251b57405af6cd2",
+            "type": "leaf",
+            "state": {
+              "type": "mindmapview",
+              "state": {
+                "file": "Untitled mindmap.md"
+              },
+              "icon": "blocks",
+              "title": "Untitled mindmap"
+            },
+            "group": "aaa3bda82264d451"
+          }
+        ],
+        "currentTab": 1
+      },
+      {
+        "id": "780929391c2ca5f5",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "3c5164826b983da2",
+            "type": "leaf",
+            "state": {
+              "type": "localgraph",
+              "state": {
+                "file": "Untitled mindmap.md",
+                "options": {
+                  "collapse-filter": true,
+                  "search": "",
+                  "localJumps": 1,
+                  "localBacklinks": true,
+                  "localForelinks": true,
+                  "localInterlinks": false,
+                  "showTags": false,
+                  "showAttachments": false,
+                  "hideUnresolved": false,
+                  "collapse-color-groups": true,
+                  "colorGroups": [],
+                  "collapse-display": true,
+                  "showArrow": false,
+                  "textFadeMultiplier": 0,
+                  "nodeSizeMultiplier": 1,
+                  "lineSizeMultiplier": 1,
+                  "collapse-forces": true,
+                  "centerStrength": 0.518713248970312,
+                  "repelStrength": 10,
+                  "linkStrength": 1,
+                  "linkDistance": 250,
+                  "scale": 1,
+                  "close": true
+                }
+              },
+              "icon": "lucide-git-fork",
+              "title": "グラフビュー"
+            },
+            "group": "aaa3bda82264d451"
           }
         ]
       }
@@ -95,7 +153,7 @@
         "state": {
           "type": "backlink",
           "state": {
-            "file": "The bucket list 2025.md",
+            "file": "Untitled mindmap.md",
             "collapseAll": false,
             "extraContext": false,
             "sortOrder": "alphabetical",
@@ -155,13 +213,15 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "aaec56f53b1da2b1",
+  "active": "d251b57405af6cd2",
   "lastOpenFiles": [
+    "obsidian-mindmap.md",
+    "Untitled mindmap.md",
+    "README.md",
     "The bucket list 2025.md",
     "uv.lock",
     "requirements.txt",
     "pyproject.toml",
-    "db_insert.py",
-    "README.md"
+    "db_insert.py"
   ]
 }
