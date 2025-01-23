@@ -27,7 +27,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BODY: |
             > [!IMPORTANT]
-            > - [x] 風呂
+            > - [ ] 風呂
             > - 懸垂 ``回
 
             ## やったこと
