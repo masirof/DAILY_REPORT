@@ -149,6 +149,9 @@ wget -qO- https://astral.sh/uv/install.sh | sh
 # uv(windows)
 winget install --id astral-sh.uv
 
+# github cli(windows)
+winget install --id GitHub.cli
+
 uv init --python 3.12
 # uv sync
 uv venv
