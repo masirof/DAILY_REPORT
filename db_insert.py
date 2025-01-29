@@ -7,7 +7,7 @@ import csv
 from io import StringIO
 
 # MySQLDBとの接続
-# SQLAlchemyはORMで便利に操作できそうだが、SQLのクエリを学習したいため
+# SQLAlchemyはORMで便利に操作できそうだが、SQLのクエリを学習したいため'j'
 # PyMySQLを仕様
 
 

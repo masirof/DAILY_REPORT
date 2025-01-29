@@ -137,14 +137,17 @@ insert
 github codespaceで頑張ってたけど、ghコマンドをcodespaceに入れる方法がわからず、ローカルでpython環境を作成する
 
 ```
-sudo apt update
+sudo apt update'j
 sudo apt install python3.12 -y
 python3 --version
 sudo apt install python3-pip
 
-# uv
+# uv(linux)
 wget -qO- https://astral.sh/uv/install.sh | sh
 # curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# uv(windows)
+winget install --id astral-sh.uv
 
 uv init --python 3.12
 # uv sync
