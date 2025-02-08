@@ -5,6 +5,7 @@ from pymysql.cursors import DictCursor
 import subprocess
 import csv
 from io import StringIO
+import json
 
 # MySQLDBとの接続
 # SQLAlchemyはORMで便利に操作できそうだが、SQLのクエリを学習したいため'j'
@@ -50,17 +51,33 @@ def get_connection(autocommit: bool = True) -> Connection:
 # 日時のリスト　→　テキスト　→　パース?
 
 
-# get issue list
-# ID - TITLE(date)
-subprocess.run
-# run: gh issue list --repo https://github.com/masirof/DAILY_REPORT.git --author github-actions[bot] --limit 30
-cmd = 'gh issue list --repo https://github.com/masirof/DAILY_REPORT.git --author github-actions[bot] --limit 30'
+# cmd = 'gh issue list --repo https://github.com/masirof/DAILY_REPORT.git --author github-actions[bot] --limit 30'
+# process = (subprocess.Popen(cmd, stdout=subprocess.PIPE,
+#                            shell=True).communicate()[0]).decode('utf-8')
+# csv_output = StringIO(process)
+# csv_reader = csv.reader(csv_output, delimiter='\t')
+# csv_lsit = list(csv_reader)
+
+# issue_num_title = [[v[0],v[2]] for v in csv_lsit]
+# print(issue_num_title[0:10])
+
+# # 昨日のissuを番号を取得
+# issue_num =  issue_num_title[1][0]
+issue_num =  74
+# print(issue_num)
+
+
+cmd = f'gh issue view {issue_num} --repo https://github.com/masirof/DAILY_REPORT.git --json title,body'
 process = (subprocess.Popen(cmd, stdout=subprocess.PIPE,
                            shell=True).communicate()[0]).decode('utf-8')
-print('コマンドは\n'+process+'です')#何かしらの処理
-csv_output = StringIO()
-csv_writer = csv.writer(csv_output)
-print(csv_writer[0])
+csv_output = StringIO(process)
+# csv_reader = csv.reader(csv_output, delimiter=' ')
+json_reader = json.load(csv_output)
+# csv_reader = csv.reader(csv_output)
+# csv_lsit = list(csv_reader)
+print(json_reader)
+print(json_reader['body'])
+
 
 
 # get issue body(return:json)
