@@ -7,6 +7,8 @@ import csv
 from io import StringIO
 import json
 import re
+import unicodedata
+import pandas as pd
 
 # MySQLDBとの接続
 # SQLAlchemyはORMで便利に操作できそうだが、SQLのクエリを学習したいため'j'
@@ -64,7 +66,7 @@ def get_connection(autocommit: bool = True) -> Connection:
 
 # # 昨日のissuを番号を取得
 # issue_num =  issue_num_title[1][0]
-issue_num =  66
+issue_num =  63
 issue_num =  75
 # print(issue_num)
 
@@ -83,30 +85,55 @@ print(json_reader)
 print(json_reader['body'])
 
 # ❗unicode正規化するとよい
+# normalized_json = unicodedata.normalize('NFKC', json_reader['body'])
+# print(normalized_json)
 
-# pull_up_count = re.match(r'懸垂.*?`(\d{1,2})`.*?回', json_reader['body'])
+# 風呂、本を読む、プログラミング、懸垂回数をパース
+is_bathed_re = re.findall(r'\[(x|X)\].*?風呂', json_reader['body'], re.MULTILINE)
+
+is_read_book_re = re.findall(r'\[(x|X)\].*?本を読む', json_reader['body'], re.MULTILINE)
+
+is_programming_re = re.findall(r'\[(x|X)\].*?プログラミング', json_reader['body'], re.MULTILINE)
+
 pull_up_re = re.findall(r'懸垂.*?`(\d{1,2})`.*?回', json_reader['body'], re.MULTILINE)
-# [x] 風呂
-is_bathed_re = re.findall(r'\[(x)\].*?風呂', json_reader['body'], re.MULTILINE)
-if pull_up_re:
-    print(pull_up_re[0])
-    pull_up_count = pull_up_re[0]
-else:
-    pull_up_count = 0
+
 if is_bathed_re:
     is_bathed = True
-    print(is_bathed)
 else:
     is_bathed = False
 
+if is_read_book_re:
+    is_read_book = True
+else:
+    is_read_book = False
+
+if is_programming_re:
+    is_programming = True
+else:
+    is_programming = False
+
+if pull_up_re:
+    pull_up_count = pull_up_re[0]
+else:
+    pull_up_count = 0
+
+insert_data = []
 
 
+print(pull_up_count,is_bathed)
 
-# get issue body(return:json)
-# run: gh issue view --repo https://github.com/masirof/DAILY_REPORT.git --author github-actions[bot] --json title,body
+# ❗ pandasで扱いたい
+# ❗dateは一意にしたほうがいいかも
+# ❗DBカラム追加
+# ❗一ヶ月分
 
-# with get_connection(autocommit=True) as conn:
-#     with conn.cursor() as cur:
-#         # cur.execute("SELECT * FROM bath;")
-#         # cur.execute("INSERT INTO bath (date, is_bathed) VALUES('2000-01-02', TRUE)")
-#         # print(cur.fetchall())
+insert_data = [
+    ['2000-01-02', True],
+]
+
+with get_connection(autocommit=True) as conn:
+    with conn.cursor() as cur:
+        # cur.execute("SELECT * FROM bath;")
+        cur.execute("INSERT INTO bath (date, is_bathed) VALUES('2000-01-02', TRUE)")
+        cur.executemany("INSERT INTO bath (date, is_bathed) VALUES(?, ?)", insert_data)
+        print(cur.fetchall())
