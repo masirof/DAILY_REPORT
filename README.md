@@ -157,8 +157,6 @@ ALTER TABLE daily_logs
 ADD CONSTRAINT unique_date UNIQUE (date);
 ```
 
-
-
 - カラム追加
 
 ```
@@ -218,4 +216,4 @@ uv add hoge
 
 ```
 
-#
+uv pip compile pyproject.toml > requirements.txt
