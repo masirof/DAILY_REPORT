@@ -13,24 +13,35 @@
 - Prometheus サーバーからリソース情報を取得して監視する。リミットを決められアラートを出せる
 
 Grafana cloudの無料版はメトリクスが2週間みたい(2週間分1Grafana側キャッシュでデータを保持できる)
+
 なので、長期的にデータを持ちたいときは外部DBが必要になる。
+
 GrafanaCloud - DB - GithubActions - データ対象
+
 みたいなデータの流れになると思う。
 
 DB: PlanetScale or TiDB Serverless
+
 PlanetScale無料版が2024/4月に終わるっぽい
+
 TiDBServerlessはNewSQLらしい
+
 NewSQLは RDBMS と NoSQLをいいとこ取りしてるらしい
+
 DBのクラウドサービスをDBaaSというらしい
 
 SaaS的な文脈でのストレージとデータベースって違うんですね...(GoogleDriveとDBみたいな...)
 
 - TiDB:
+
   Serverlessは「みんなで仲良くつかおう」に対して、Dedicatedは「専有で使おう」になります。AWS以外でGCPが選択できる。Node、CPU、RAMのチューニングができるというのが魅力ですね。料金は少しお高くなります。データは完全に利用者しか見えなくなりPingCAP様でも一切見えなくなる
+
   https://zenn.dev/icck/articles/5bc716bbe18a3a
 
 参考:
+
 睡眠
+
 ヘルスケア
 
 # TiDB Serverless入門
@@ -41,6 +52,7 @@ SaaS的な文脈でのストレージとデータベースって違うんです�
 - Dedicated 専有でAWS等のクラウドを使える(セキュリティ高)
 - Serverless みんなでAWSのプールを共有する
 - DB Table 作成 クラスタ内のSQL Editor
+
   たぶんMySQLで書く?
 - SQL Editor内の左矢印(Expand)を押すとSchemeが見れる
 - Diagnosis → SQL Statement でクエリの実行速度を見れる
@@ -75,6 +87,7 @@ SHOW DATABASES
 - INFORMATION_SCHEMA
 - PERFORMANCE_SCHEMA
 - mysql
+
   上以外が作成したDB
 - テーブル確認
 
@@ -115,22 +128,65 @@ FROM
   `bath`;
 ```
 
+bathテーブルをdaily_logsテーブルに変更
+
+```
+ALTER TABLE bath RENAME TO daily_logs;
+```
+
+- カラム情報表示
+
+```
+SELECT 
+    COLUMN_NAME, 
+    COLUMN_TYPE, 
+    IS_NULLABLE, 
+    COLUMN_DEFAULT, 
+    CHARACTER_SET_NAME, 
+    COLLATION_NAME, 
+    COLUMN_KEY, 
+    EXTRA 
+FROM information_schema.COLUMNS 
+WHERE TABLE_NAME = 'daily_logs';
+```
+
+- dateカラムにunique属性追加
+
+```
+ALTER TABLE daily_logs 
+ADD CONSTRAINT unique_date UNIQUE (date);
+```
+
+
+
+- カラム追加
+
+```
+ALTER TABLE daily_logs 
+ADD COLUMN is_read_book BOOLEAN NOT NULL DEFAULT 0;
+```
+
 # Actions
 
 Actionsでボタンを押したらpythonが動く
+
 PythonでDBにデータをinsert
+
 ライブラリはpymysqlを使用
 
 issueからテキスト(markdown)を取得
+
 パース
+
 markdownをパース?
+
 insert
 
 [pythonからdbに接続](https://zenn.dev/icck/articles/c4344f75460b53)
+
 [codespacesからpythonを実行](https://docs.github.com/ja/codespaces/setting-up-your-project-for-codespaces/adding-a-dev-container-configuration/setting-up-your-python-project-for-codespaces#step-1-open-the-project-in-a-codespace)
 
 [actionsからgithub secret呼び出し、pythonで使用](https://qiita.com/Wallaby19/items/7a9f2e514cd2e10d8b42)
-
 
 # python
 
