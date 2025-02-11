@@ -143,3 +143,21 @@ with get_connection(autocommit=True) as conn:
         cur.executemany("INSERT INTO daily_logs (date, is_bathed, is_read_book, is_programming, pull_up_count) VALUES(?, ?, ?, ?, ?)", insert_data)
         cur.execute("SELECT * FROM daily_logs;")
         ic(cur.fetchall())
+
+# ❗泣いた
+# Traceback (most recent call last):
+#   File "/home/runner/work/DAILY_REPORT/DAILY_REPORT/db_insert.py", line 143, in <module>
+#     cur.executemany("INSERT INTO ***_logs (date, is_bathed, is_read_book, is_programming, pull_up_count) VALUES(?, ?, ?, ?, ?)", insert_data)
+#     ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#   File "/opt/hostedtoolcache/Python/3.13.1/x64/lib/python3.13/site-packages/pymysql/cursors.py", line 191, in executemany
+#     self.rowcount = sum(self.execute(query, arg) for arg in args)
+#                     ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#   File "/opt/hostedtoolcache/Python/3.13.1/x64/lib/python3.13/site-packages/pymysql/cursors.py", line 191, in <genexpr>
+#     self.rowcount = sum(self.execute(query, arg) for arg in args)
+#                         ~~~~~~~~~~~~^^^^^^^^^^^^
+#   File "/opt/hostedtoolcache/Python/3.13.1/x64/lib/python3.13/site-packages/pymysql/cursors.py", line 151, in execute
+#     query = self.mogrify(query, args)
+#   File "/opt/hostedtoolcache/Python/3.13.1/x64/lib/python3.13/site-packages/pymysql/cursors.py", line 129, in mogrify
+#     query = query % self._escape_args(args, conn)
+#             ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# TypeError: not all arguments converted during string formatting
