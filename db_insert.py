@@ -131,7 +131,7 @@ ic(json_reader['title'])
 
 insert_data = [
     # ['2000-01-02', True],
-    ['2000-01-03', True, True, True, 3],
+    ('2000-01-03', True, True, True, 3),
 ]
 
 with get_connection(autocommit=True) as conn:
