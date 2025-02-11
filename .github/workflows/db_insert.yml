@@ -36,4 +36,5 @@ jobs:
           TIDB_PASSWORD: ${{secrets.TIDB_PASSWORD}}
           TIDB_DB_NAME: ${{secrets.TIDB_DB_NAME}}
           TIDB_CA_PATH: tidb_ca.pem
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python db_insert.py
