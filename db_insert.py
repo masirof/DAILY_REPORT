@@ -130,13 +130,16 @@ ic(json_reader['title'])
 # ❗一ヶ月分
 
 insert_data = [
-    # ['2000-01-02', True],
     ('2000-01-03', True, True, True, 3),
+    ('2000-01-04', True, True, True, 3)
 ]
 
 with get_connection(autocommit=True) as conn:
     with conn.cursor() as cur:
-        # cur.execute("SELECT * FROM bath;")
-        # cur.execute("INSERT INTO bath (date, is_bathed) VALUES('2000-01-02', TRUE)")
+        # cur.execute("INSERT INTO daily_logs (date, is_bathed) VALUES('2000-01-02', TRUE)")
+        
+        # cur.executemany("INSERT INTO daily_logs (date, is_bathed, is_read_book, is_programming, pull_up_count) VALUES(?, ?, ?, ?, ?)", insert_data)
+        
         cur.executemany("INSERT INTO daily_logs (date, is_bathed, is_read_book, is_programming, pull_up_count) VALUES(?, ?, ?, ?, ?)", insert_data)
+        cur.execute("SELECT * FROM daily_logs;")
         ic(cur.fetchall())
