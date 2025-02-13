@@ -55,18 +55,21 @@ def get_connection(autocommit: bool = True) -> Connection:
 # 日時のリスト　→　テキスト　→　パース?
 
 
-# cmd = 'gh issue list --repo https://github.com/masirof/DAILY_REPORT.git --author github-actions[bot] --limit 30'
-# process = (subprocess.Popen(cmd, stdout=subprocess.PIPE,
-#                            shell=True).communicate()[0]).decode('utf-8')
-# csv_output = StringIO(process)
-# csv_reader = csv.reader(csv_output, delimiter='\t')
-# csv_lsit = list(csv_reader)
+cmd = 'gh issue list --repo https://github.com/masirof/DAILY_REPORT.git --author github-actions[bot] --limit 30'
+process = (subprocess.Popen(cmd, stdout=subprocess.PIPE,
+                           shell=True).communicate()[0]).decode('utf-8')
+csv_output = StringIO(process)
+csv_reader = csv.reader(csv_output, delimiter='\t')
+csv_lsit = list(csv_reader)
 
-# issue_num_title = [[v[0],v[2]] for v in csv_lsit]
+issue_num_title = [[v[0],v[2]] for v in csv_lsit]
 # ic(issue_num_title[0:10])
+ic(issue_num_title)
 
-# # 昨日のissuを番号を取得
-# issue_num =  issue_num_title[1][0]
+# 昨日のissuを番号を取得
+issue_num =  issue_num_title[1][0]
+
+
 issue_num =  63
 issue_num =  75
 # ic(issue_num)
@@ -75,7 +78,7 @@ issue_num =  75
 cmd = f'gh issue view {issue_num} --repo https://github.com/masirof/DAILY_REPORT.git --json title,body'
 process = (subprocess.Popen(cmd, stdout=subprocess.PIPE,
                            shell=True).communicate()[0]).decode('utf-8')
-ic(process)
+# ic(process)
 # process = """{"body":"> [!IMPORTANT]\n> 毎日タスク\n- [x] 風呂\n- 懸垂 `1`回\n\n## やったこと\n- \n\n## やりたいこと\n- 強く...なりてぇ...\n\n## おもしろかったこと\n- おもろい人と話しておもろかったw\n\nご唱和ください！つくる　おもしろいことをする\n","title":"2025-02-07"}"""
 csv_output = StringIO(process)
 # csv_reader = csv.reader(csv_output, delimiter=' ')
@@ -124,9 +127,7 @@ insert_data = []
 ic(pull_up_count,is_bathed,is_read_book,is_programming)
 ic(json_reader['title'])
 
-# ❗ pandasで扱いたい
 # ❗dateは一意にしたほうがいいかも
-# ❗DBカラム追加
 # ❗一ヶ月分
 
 insert_data = [
@@ -134,30 +135,16 @@ insert_data = [
     ('2000-01-04', True, True, True, 3)
 ]
 
-with get_connection(autocommit=True) as conn:
-    with conn.cursor() as cur:
-        # cur.execute("INSERT INTO daily_logs (date, is_bathed) VALUES('2000-01-02', TRUE)")
+# with get_connection(autocommit=True) as conn:
+#     with conn.cursor() as cur:
+#         # cur.execute("INSERT INTO daily_logs (date, is_bathed) VALUES('2000-01-02', TRUE)")
         
-        # cur.executemany("INSERT INTO daily_logs (date, is_bathed, is_read_book, is_programming, pull_up_count) VALUES(?, ?, ?, ?, ?)", insert_data)
+#         # cur.executemany("INSERT INTO daily_logs (date, is_bathed, is_read_book, is_programming, pull_up_count) VALUES(?, ?, ?, ?, ?)", insert_data)
         
-        cur.executemany("INSERT INTO daily_logs (date, is_bathed, is_read_book, is_programming, pull_up_count) VALUES(%s, %s, %s, %s, %s)", insert_data)
-        cur.execute("SELECT * FROM daily_logs;")
-        ic(cur.fetchall())
+#         cur.executemany("INSERT INTO daily_logs (date, is_bathed, is_read_book, is_programming, pull_up_count) VALUES(%s, %s, %s, %s, %s)", insert_data)
+#         cur.execute("SELECT * FROM daily_logs;")
+#         ic(cur.fetchall())
 
 # ❗泣いた
-# Traceback (most recent call last):
-#   File "/home/runner/work/DAILY_REPORT/DAILY_REPORT/db_insert.py", line 143, in <module>
-#     cur.executemany("INSERT INTO ***_logs (date, is_bathed, is_read_book, is_programming, pull_up_count) VALUES(?, ?, ?, ?, ?)", insert_data)
-#     ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-#   File "/opt/hostedtoolcache/Python/3.13.1/x64/lib/python3.13/site-packages/pymysql/cursors.py", line 191, in executemany
-#     self.rowcount = sum(self.execute(query, arg) for arg in args)
-#                     ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-#   File "/opt/hostedtoolcache/Python/3.13.1/x64/lib/python3.13/site-packages/pymysql/cursors.py", line 191, in <genexpr>
-#     self.rowcount = sum(self.execute(query, arg) for arg in args)
-#                         ~~~~~~~~~~~~^^^^^^^^^^^^
-#   File "/opt/hostedtoolcache/Python/3.13.1/x64/lib/python3.13/site-packages/pymysql/cursors.py", line 151, in execute
-#     query = self.mogrify(query, args)
-#   File "/opt/hostedtoolcache/Python/3.13.1/x64/lib/python3.13/site-packages/pymysql/cursors.py", line 129, in mogrify
-#     query = query % self._escape_args(args, conn)
-#             ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# TypeError: not all arguments converted during string formatting
+# 同じのを入れると一意じゃなくてエラーが出るぞ
+# pymysql.err.IntegrityError: (1062, "Duplicate entry '?' for key '***_logs.unique_date'")
