@@ -140,7 +140,7 @@ with get_connection(autocommit=True) as conn:
         
         # cur.executemany("INSERT INTO daily_logs (date, is_bathed, is_read_book, is_programming, pull_up_count) VALUES(?, ?, ?, ?, ?)", insert_data)
         
-        cur.executemany("INSERT INTO daily_logs (date, is_bathed, is_read_book, is_programming, pull_up_count) VALUES(?, ?, ?, ?, ?)", insert_data)
+        cur.executemany("INSERT INTO daily_logs (date, is_bathed, is_read_book, is_programming, pull_up_count) VALUES(%s, %s, %s, %s, %s)", insert_data)
         cur.execute("SELECT * FROM daily_logs;")
         ic(cur.fetchall())
 
