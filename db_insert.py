@@ -10,6 +10,7 @@ import re
 import unicodedata
 import pandas as pd
 from icecream import ic
+from dotenv import load_dotenv
 
 # MySQLDBとの接続
 # SQLAlchemyはORMで便利に操作できそうだが、SQLのクエリを学習したいため'j'
@@ -19,7 +20,7 @@ from icecream import ic
 ic('hi')
 
 # .envファイルで環境変数を上書き
-
+load_dotenv()
 
 def get_connection(autocommit: bool = True) -> Connection:
     # actionsのsecretsに登録した環境変数の呼び出し
@@ -28,7 +29,7 @@ def get_connection(autocommit: bool = True) -> Connection:
     TIDB_USER = os.environ.get("TIDB_USER")
     TIDB_PASSWORD = os.environ.get("TIDB_PASSWORD")
     TIDB_DB_NAME = os.environ.get("TIDB_DB_NAME")
-    TIDB_CA_PATH = os.environ.get("TIDB_CA_PATH")
+    TIDB_CA = os.environ.get("TIDB_CA")
 
     db_conf = {
         "host": TIDB_HOST,
@@ -40,10 +41,11 @@ def get_connection(autocommit: bool = True) -> Connection:
         "cursorclass": DictCursor,
     }
 
-    if TIDB_CA_PATH:
+    if TIDB_CA:
         db_conf["ssl_verify_cert"] = True
         db_conf["ssl_verify_identity"] = True
-        db_conf["ssl_ca"] = TIDB_CA_PATH
+        # db_conf["ssl_ca"] = TIDB_CA
+        db_conf["ssl_key_password"] = TIDB_CA
 
     return pymysql.connect(**db_conf)
 
@@ -141,15 +143,15 @@ insert_data = [
     ('2000-01-04', True, True, True, 3)
 ]
 
-# with get_connection(autocommit=True) as conn:
-#     with conn.cursor() as cur:
-#         # cur.execute("INSERT INTO daily_logs (date, is_bathed) VALUES('2000-01-02', TRUE)")
+with get_connection(autocommit=True) as conn:
+    with conn.cursor() as cur:
+        # cur.execute("INSERT INTO daily_logs (date, is_bathed) VALUES('2000-01-02', TRUE)")
         
-#         # cur.executemany("INSERT INTO daily_logs (date, is_bathed, is_read_book, is_programming, pull_up_count) VALUES(?, ?, ?, ?, ?)", insert_data)
+        # cur.executemany("INSERT INTO daily_logs (date, is_bathed, is_read_book, is_programming, pull_up_count) VALUES(?, ?, ?, ?, ?)", insert_data)
         
-#         cur.executemany("INSERT INTO daily_logs (date, is_bathed, is_read_book, is_programming, pull_up_count) VALUES(%s, %s, %s, %s, %s)", insert_data)
-#         cur.execute("SELECT * FROM daily_logs;")
-#         ic(cur.fetchall())
+        # cur.executemany("INSERT INTO daily_logs (date, is_bathed, is_read_book, is_programming, pull_up_count) VALUES(%s, %s, %s, %s, %s)", insert_data)
+        cur.execute("SELECT * FROM daily_logs;")
+        ic(cur.fetchall())
 
 # ❗泣いた
 # 同じのを入れると一意じゃなくてエラーが出るぞ
