@@ -18,6 +18,9 @@ from icecream import ic
 
 ic('hi')
 
+# .envファイルで環境変数を上書き
+
+
 def get_connection(autocommit: bool = True) -> Connection:
     # actionsのsecretsに登録した環境変数の呼び出し
     TIDB_HOST = os.environ.get("TIDB_HOST")
@@ -54,8 +57,9 @@ def get_connection(autocommit: bool = True) -> Connection:
 # github rest API
 # 日時のリスト　→　テキスト　→　パース?
 
-
+# 30日分
 cmd = 'gh issue list --repo https://github.com/masirof/DAILY_REPORT.git --author github-actions[bot] --limit 30'
+# cmd = 'gh issue list --repo https://github.com/masirof/DAILY_REPORT.git --author github-actions[bot]'
 process = (subprocess.Popen(cmd, stdout=subprocess.PIPE,
                            shell=True).communicate()[0]).decode('utf-8')
 csv_output = StringIO(process)
@@ -63,30 +67,32 @@ csv_reader = csv.reader(csv_output, delimiter='\t')
 csv_lsit = list(csv_reader)
 
 issue_num_title = [[v[0],v[2]] for v in csv_lsit]
-# ic(issue_num_title[0:10])
 ic(issue_num_title)
 
 # 昨日のissuを番号を取得
-issue_num =  issue_num_title[1][0]
+latest_issue_num =  issue_num_title[1][0]
+
+# 30日文
+# issue_numから
+for v in issue_num_title:
+    ic(v[0])
 
 
-issue_num =  63
-issue_num =  75
-# ic(issue_num)
+latest_issue_num =  63
+latest_issue_num =  75
+# ic(latest_issue_num)
 
 
-cmd = f'gh issue view {issue_num} --repo https://github.com/masirof/DAILY_REPORT.git --json title,body'
+cmd = f'gh issue view {latest_issue_num} --repo https://github.com/masirof/DAILY_REPORT.git --json title,body'
 process = (subprocess.Popen(cmd, stdout=subprocess.PIPE,
                            shell=True).communicate()[0]).decode('utf-8')
-# ic(process)
-# process = """{"body":"> [!IMPORTANT]\n> 毎日タスク\n- [x] 風呂\n- 懸垂 `1`回\n\n## やったこと\n- \n\n## やりたいこと\n- 強く...なりてぇ...\n\n## おもしろかったこと\n- おもろい人と話しておもろかったw\n\nご唱和ください！つくる　おもしろいことをする\n","title":"2025-02-07"}"""
+
 csv_output = StringIO(process)
-# csv_reader = csv.reader(csv_output, delimiter=' ')
 json_reader = json.load(csv_output)
-# csv_reader = csv.reader(csv_output)
-# csv_lsit = list(csv_reader)
 print(json_reader)
 print(json_reader['body'])
+
+
 
 # ❗unicode正規化するとよい
 # normalized_json = unicodedata.normalize('NFKC', json_reader['body'])
@@ -124,7 +130,7 @@ else:
 insert_data = []
 
 
-ic(pull_up_count,is_bathed,is_read_book,is_programming)
+ic(pull_up_count, is_bathed, is_read_book, is_programming)
 ic(json_reader['title'])
 
 # ❗dateは一意にしたほうがいいかも
