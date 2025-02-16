@@ -59,7 +59,32 @@ def get_connection(autocommit: bool = True) -> Connection:
 # github rest API
 # 日時のリスト　→　テキスト　→　パース?
 
-# 30日分
+
+with get_connection(autocommit=True) as conn:
+    with conn.cursor() as cur:
+        # cur.execute("INSERT INTO daily_logs (date, is_bathed) VALUES('2000-01-02', TRUE)")
+        
+        # cur.executemany("INSERT INTO daily_logs (date, is_bathed, is_read_book, is_programming, pull_up_count) VALUES(?, ?, ?, ?, ?)", insert_data)
+        
+        # cur.executemany("INSERT INTO daily_logs (date, is_bathed, is_read_book, is_programming, pull_up_count) VALUES(%s, %s, %s, %s, %s)", insert_data)
+        query = """
+            SELECT
+                date
+            FROM
+                daily_logs
+            order by date ASC
+        """
+        # cur.execute("SELECT date FROM daily_logs order by ")
+        cur.execute(query)
+        date_list = cur.fetchall()
+        
+ic(date_list[0]["date"])
+ic(type(date_list[0]["date"]))
+
+
+
+
+# 30日分のissue_noとtitleを取得
 cmd = 'gh issue list --repo https://github.com/masirof/DAILY_REPORT.git --author github-actions[bot] --limit 30'
 # cmd = 'gh issue list --repo https://github.com/masirof/DAILY_REPORT.git --author github-actions[bot]'
 process = (subprocess.Popen(cmd, stdout=subprocess.PIPE,
@@ -68,24 +93,26 @@ csv_output = StringIO(process)
 csv_reader = csv.reader(csv_output, delimiter='\t')
 csv_lsit = list(csv_reader)
 
-issue_num_title = [[v[0],v[2]] for v in csv_lsit]
-ic(issue_num_title)
+issue_no_title = [[v[0],v[2]] for v in csv_lsit]
+# ic(issue_no_title)
 
 # 昨日のissuを番号を取得
-latest_issue_num =  issue_num_title[1][0]
+latest_issue_no =  issue_no_title[1][0]
+
+
 
 # 30日文
-# issue_numから
-for v in issue_num_title:
-    ic(v[0])
+# issue_noから
+# for v in issue_no_title:
+    # ic(v[0])
 
 
-latest_issue_num =  63
-latest_issue_num =  75
-# ic(latest_issue_num)
+latest_issue_no =  63
+latest_issue_no =  75
+# ic(latest_issue_no)
 
 
-cmd = f'gh issue view {latest_issue_num} --repo https://github.com/masirof/DAILY_REPORT.git --json title,body'
+cmd = f'gh issue view {latest_issue_no} --repo https://github.com/masirof/DAILY_REPORT.git --json title,body'
 process = (subprocess.Popen(cmd, stdout=subprocess.PIPE,
                            shell=True).communicate()[0]).decode('utf-8')
 
@@ -143,15 +170,15 @@ insert_data = [
     ('2000-01-04', True, True, True, 3)
 ]
 
-with get_connection(autocommit=True) as conn:
-    with conn.cursor() as cur:
-        # cur.execute("INSERT INTO daily_logs (date, is_bathed) VALUES('2000-01-02', TRUE)")
+# with get_connection(autocommit=True) as conn:
+#     with conn.cursor() as cur:
+#         # cur.execute("INSERT INTO daily_logs (date, is_bathed) VALUES('2000-01-02', TRUE)")
         
-        # cur.executemany("INSERT INTO daily_logs (date, is_bathed, is_read_book, is_programming, pull_up_count) VALUES(?, ?, ?, ?, ?)", insert_data)
+#         # cur.executemany("INSERT INTO daily_logs (date, is_bathed, is_read_book, is_programming, pull_up_count) VALUES(?, ?, ?, ?, ?)", insert_data)
         
-        # cur.executemany("INSERT INTO daily_logs (date, is_bathed, is_read_book, is_programming, pull_up_count) VALUES(%s, %s, %s, %s, %s)", insert_data)
-        cur.execute("SELECT * FROM daily_logs;")
-        ic(cur.fetchall())
+#         # cur.executemany("INSERT INTO daily_logs (date, is_bathed, is_read_book, is_programming, pull_up_count) VALUES(%s, %s, %s, %s, %s)", insert_data)
+#         cur.execute("SELECT * FROM daily_logs;")
+#         ic(cur.fetchall())
 
 # ❗泣いた
 # 同じのを入れると一意じゃなくてエラーが出るぞ
