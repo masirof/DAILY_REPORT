@@ -11,17 +11,16 @@ import unicodedata
 import pandas as pd
 from icecream import ic
 from dotenv import load_dotenv
+from datetime import datetime
+from datetime import date
 
-# MySQLDBとの接続
-# SQLAlchemyはORMで便利に操作できそうだが、SQLのクエリを学習したいため'j'
-# PyMySQLを仕様
+DATE_RANGE = 30
 
-
-ic('hi')
 
 # .envファイルで環境変数を上書き
 load_dotenv()
 
+# SQLAlchemyはORMで便利に操作できそうだが、SQLのクエリを学習したいため
 def get_connection(autocommit: bool = True) -> Connection:
     # actionsのsecretsに登録した環境変数の呼び出し
     TIDB_HOST = os.environ.get("TIDB_HOST")
@@ -60,32 +59,38 @@ def get_connection(autocommit: bool = True) -> Connection:
 # 日時のリスト　→　テキスト　→　パース?
 
 
+# 30日分の日付を取得
 with get_connection(autocommit=True) as conn:
     with conn.cursor() as cur:
-        # cur.execute("INSERT INTO daily_logs (date, is_bathed) VALUES('2000-01-02', TRUE)")
-        
-        # cur.executemany("INSERT INTO daily_logs (date, is_bathed, is_read_book, is_programming, pull_up_count) VALUES(?, ?, ?, ?, ?)", insert_data)
-        
-        # cur.executemany("INSERT INTO daily_logs (date, is_bathed, is_read_book, is_programming, pull_up_count) VALUES(%s, %s, %s, %s, %s)", insert_data)
-        query = """
+        query = f"""
             SELECT
                 date
             FROM
                 daily_logs
-            order by date ASC
+            order by date DESC
+            limit {DATE_RANGE}
         """
-        # cur.execute("SELECT date FROM daily_logs order by ")
         cur.execute(query)
-        date_list = cur.fetchall()
-        
-ic(date_list[0]["date"])
-ic(type(date_list[0]["date"]))
+        DB_date_list = cur.fetchall()
+DB_date_list = [v['date'] for v in DB_date_list]
+ic(DB_date_list)
+# ic(date_list[0]["date"])
+# ic(type(date_list[0]["date"]))
+
+# gh issue listでbodyまで取得できた
+cmd = f'gh issue list --repo https://github.com/masirof/DAILY_REPORT.git --author github-actions[bot] --json number,title,body --limit {DATE_RANGE}'
+process = (subprocess.Popen(cmd, stdout=subprocess.PIPE,
+                           shell=True).communicate()[0]).decode('utf-8')
+
+csv_output = StringIO(process)
+json_reader = json.load(csv_output)
+print(json_reader)
 
 
 
 
 # 30日分のissue_noとtitleを取得
-cmd = 'gh issue list --repo https://github.com/masirof/DAILY_REPORT.git --author github-actions[bot] --limit 30'
+cmd = f'gh issue list --repo https://github.com/masirof/DAILY_REPORT.git --author github-actions[bot] --limit {DATE_RANGE}'
 # cmd = 'gh issue list --repo https://github.com/masirof/DAILY_REPORT.git --author github-actions[bot]'
 process = (subprocess.Popen(cmd, stdout=subprocess.PIPE,
                            shell=True).communicate()[0]).decode('utf-8')
@@ -93,18 +98,16 @@ csv_output = StringIO(process)
 csv_reader = csv.reader(csv_output, delimiter='\t')
 csv_lsit = list(csv_reader)
 
-issue_no_title = [[v[0],v[2]] for v in csv_lsit]
-# ic(issue_no_title)
+gh_issueno_title = [[v[0], datetime.strptime(v[2], '%Y-%m-%d').date()] for v in csv_lsit]
+ic(gh_issueno_title)
 
 # 昨日のissuを番号を取得
-latest_issue_no =  issue_no_title[1][0]
+latest_issue_no =  gh_issueno_title[1][0]
 
+# 差分処理
+diff_issueno_title = [item for item in gh_issueno_title if item[1] not in DB_date_list]
+ic(diff_issueno_title)
 
-
-# 30日文
-# issue_noから
-# for v in issue_no_title:
-    # ic(v[0])
 
 
 latest_issue_no =  63
