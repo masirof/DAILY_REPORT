@@ -32,8 +32,18 @@
 - 入浴率>=90% 未達
   - ペナルティ 帰宅中に泥をかぶる or 水たまりちゃぷちゃぷを行い帰宅後に入浴を行います。
 
-- 各指標のSLOを下回った場合、反省を行います。
+## エラーバジェット
+- 爆睡率>=80%
+  - 月6回まで未達ok
+- 早寝率>=70%
+  - 月9日まで未達OK
+- 早起き率>=70%
+  - 月9日まで未達OK
+- 入浴率>=90%
+  - 月3日まで未達OK
 
+- 一つでも指標のSLOを下回った場合、反省・対策を行います。
+- 
 
 ## 各指標の考察
 - お風呂に入る→眠くなる→早寝率が上がる
@@ -257,3 +267,18 @@ uv add hoge
 ```
 
 uv pip compile pyproject.toml > requirements.txt
+
+
+# garmin
+Garminは無料でAPIを公開していないぞ！
+
+- Garmin Health API
+  - 全データ取得可能かつ無料ですが，企業向けのため利用不可
+
+サードパーティ
+- GarminDB https://github.com/tcgoetz/GarminDB
+- garminconnect https://github.com/cyberjunky/python-garminconnect
+- 手法としてはgarmin connectウェブページからスクレイピングする感じ
+
+- garminconnectをインストールする際のwithings-syncでcp932のエラーが出る
+  - set PYTHONUTF8=1 して解決

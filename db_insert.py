@@ -11,8 +11,7 @@ import unicodedata
 import pandas as pd
 from icecream import ic
 from dotenv import load_dotenv
-from datetime import datetime
-from datetime import date
+from datetime import datetime, date
 
 # 更新する期間
 DATE_RANGE = 100
