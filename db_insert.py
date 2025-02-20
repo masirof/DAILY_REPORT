@@ -15,7 +15,7 @@ from datetime import datetime
 from datetime import date
 
 # 更新する期間
-DATE_RANGE = 30
+DATE_RANGE = 100
 
 
 # .envファイルで環境変数を上書き
@@ -81,8 +81,8 @@ for json in json_reader:
     else:
         pull_up_count = 0
 
-    if is_bathed or is_read_book or is_programming or pull_up_count:
-        insert_data.append((json['title'], is_bathed, is_read_book, is_programming, pull_up_count))
+    # if is_bathed or is_read_book or is_programming or pull_up_count:
+    insert_data.append((json['title'], is_bathed, is_read_book, is_programming, pull_up_count))
 
 ic(insert_data)
 
