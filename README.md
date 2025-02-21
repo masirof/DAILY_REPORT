@@ -214,6 +214,8 @@ ALTER TABLE daily_logs
 ADD COLUMN is_read_book BOOLEAN NOT NULL DEFAULT 0;
 ```
 
+- column typeがdateにstrを入れるとdate型に変換してくれる
+
 # Actions
 
 Actionsでボタンを押したらpythonが動く
@@ -268,6 +270,8 @@ uv add hoge
 
 uv pip compile pyproject.toml > requirements.txt
 
+# grafana
+- ユーザーアイコン→profile→Preferences→timezone をasia/tokyoに変更しJSTを扱えるようにする
 
 # garmin
 Garminは無料でAPIを公開していないぞ！

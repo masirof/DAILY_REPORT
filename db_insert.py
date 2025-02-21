@@ -20,7 +20,7 @@ DATE_RANGE = 100
 # .envファイルで環境変数を上書き
 load_dotenv()
 
-# SQLAlchemyはORMで便利に操作できそうだが、SQLのクエリを学習したいため
+# TiDBへの接続
 def get_connection(autocommit: bool = True) -> Connection:
     # actionsのsecretsに登録した環境変数の呼び出し
     TIDB_HOST = os.environ.get("TIDB_HOST")
