@@ -26,7 +26,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: Save CA certificate
-        run: echo "${{ secrets.TIDB_CA_PATH }}" > tidb_ca.pem
+        run: echo "${{ secrets.TIDB_CA }}" > tidb_ca.pem
 
       - name: Run Python
         env:

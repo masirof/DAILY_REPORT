@@ -52,8 +52,8 @@ def garmin_login():
 yesterday = date.today() - timedelta(days=1)
 yesterday_iso = yesterday.isoformat()
 
-ic(yesterday)
-ic(yesterday_iso)
+# ic(yesterday)
+# ic(yesterday_iso)
 
 # GMT(ほぼUTC)からJSTに変換
 def GMT_to_JST(GMT_time):
