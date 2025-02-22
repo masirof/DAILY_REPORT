@@ -14,7 +14,7 @@ from dotenv import load_dotenv
 from datetime import datetime, date
 
 # 更新する期間
-DATE_RANGE = 100
+DATE_RANGE = 30
 
 
 # .envファイルで環境変数を上書き
