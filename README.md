@@ -273,6 +273,9 @@ uv pip compile pyproject.toml > requirements.txt
 # grafana
 - ユーザーアイコン→profile→Preferences→timezone をasia/tokyoに変更しJSTを扱えるようにする
 
+# Github Actionのpem
+- Repository secretsに入れるときは普通に.pemをコピペすればよい
+
 # garmin
 Garminは無料でAPIを公開していないぞ！
 
