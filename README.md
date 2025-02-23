@@ -214,6 +214,19 @@ ALTER TABLE daily_logs
 ADD COLUMN is_read_book BOOLEAN NOT NULL DEFAULT 0;
 ```
 
+- テーブル作成
+```
+use daily;
+CREATE TABLE
+  `garmin` (
+    `id` int(8) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `date` date NOT NULL UNIQUE,
+    `sleep_start_jst` DATETIME,
+    `sleep_end_jst` DATETIME,
+    `sleep_hours` DECIMAL(4,2) UNSIGNED
+  );
+```
+
 - column typeがdateにstrを入れるとdate型に変換してくれる
 
 # Actions
