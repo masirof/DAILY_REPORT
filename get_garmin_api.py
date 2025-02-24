@@ -49,7 +49,8 @@ def garmin_login():
 
 yesterday = date.today() - timedelta(days=1)
 yesterday_iso = yesterday.isoformat()
-today_iso = date.today().isoformat()
+today = date.today()
+today_iso = today.isoformat()
 
 # ic(yesterday)
 # ic(yesterday_iso)
@@ -73,7 +74,6 @@ def GMT_to_UTC(GMT_time):
 def insert_yesterday():
     insert_data = []
     sleep = garmin.get_sleep_data(yesterday_iso)
-    # ic(sleep['dailySleepDTO'])
     sleep_start_gmt = sleep['dailySleepDTO']['sleepStartTimestampGMT']
     sleep_end_gmt = sleep['dailySleepDTO']['sleepEndTimestampGMT']
     sleep_sec = sleep['dailySleepDTO']['sleepTimeSeconds']
@@ -89,11 +89,11 @@ def insert_yesterday():
         insert_data.append([yesterday_iso, sleep_start_utc, sleep_end_utc, sleep_hours])
     return insert_data
 
-def insert_n_day(n_day:int, yesterday, yesterday_iso):
+def insert_n_day(n_day:int, today, today_iso):
     insert_data = []
     for v in range(n_day):
-        # ic(yesterday_iso)
-        sleep = garmin.get_sleep_data(yesterday_iso)
+        # ic(today_iso)
+        sleep = garmin.get_sleep_data(today_iso)
         sleep_start_gmt = sleep['dailySleepDTO']['sleepStartTimestampGMT']
         sleep_end_gmt = sleep['dailySleepDTO']['sleepEndTimestampGMT']
         sleep_sec = sleep['dailySleepDTO']['sleepTimeSeconds']
@@ -109,18 +109,11 @@ def insert_n_day(n_day:int, yesterday, yesterday_iso):
             sleep_hours = sleep_sec/3600
         
         if sleep_start_gmt or sleep_end_gmt or sleep_sec:
-            insert_data.append([yesterday_iso, sleep_start_utc, sleep_end_utc, sleep_hours])
+            insert_data.append([today_iso, sleep_start_utc, sleep_end_utc, sleep_hours])
         
-        yesterday = yesterday - timedelta(days=1)
-        yesterday_iso = yesterday.isoformat()
-        # sleep()
+        today = today - timedelta(days=1)
+        today_iso = today.isoformat()
     return insert_data
-    # sleep = garmin.get_sleep_data(yesterday)
-    # # ic(sleep['dailySleepDTO'])
-    # sleep_start_gmt = sleep['dailySleepDTO']['sleepStartTimestampGMT']
-    # sleep_end_gmt = sleep['dailySleepDTO']['sleepEndTimestampGMT']
-    # sleep_sec = sleep['dailySleepDTO']['sleepTimeSeconds']
-    # sleep_hours = sleep_sec/3600
 
 
 garmin = garmin_login()
@@ -129,17 +122,13 @@ garmin = garmin_login()
 # insert_data = insert_yesterday()
 # ic(insert_data)
 
-# n_day分DBに入れる
-insert_data = insert_n_day(15, yesterday, yesterday_iso)
+
+insert_data = insert_n_day(1, today, today_iso)
 ic(insert_data)
 
-# ic(sleep['dailySleepDTO']['sleepStartTimestampGMT'])
-# print("JST:", GMT_to_utc(sleep_start_gmt))
-# print("JST:", GMT_to_utc(sleep_end_gmt))
-# ic(sleep_hours)
-
-# ic(yesterday)
-
+# 過去データ用 n_day分DBに入れる
+# insert_data = insert_n_day(15, today, today_iso)
+# ic(insert_data)
 
 # DB insert&update &全部の値が同じなら更新しない
 with get_connection(autocommit=True) as conn:

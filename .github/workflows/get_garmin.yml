@@ -1,0 +1,40 @@
+name: DB Insert
+run-name: DB Insert ${{github.run_number}}
+on:
+  schedule:
+  #   # 午前12時(JST)
+    - cron: "0 3 * * *"
+  workflow_dispatch:
+permissions:
+  contents: read
+  issues: write
+jobs:
+  db-insert:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Save CA certificate
+        run: echo "${{ secrets.TIDB_CA }}" > tidb_ca.pem
+
+      - name: Run Python
+        env:
+          TIDB_HOST: ${{secrets.TIDB_HOST}}
+          TIDB_PORT: ${{secrets.TIDB_PORT}}
+          TIDB_USER: ${{secrets.TIDB_USER}}
+          TIDB_PASSWORD: ${{secrets.TIDB_PASSWORD}}
+          TIDB_DB_NAME: ${{secrets.TIDB_DB_NAME}}
+          TIDB_CA: tidb_ca.pem
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python get_garmin.py
