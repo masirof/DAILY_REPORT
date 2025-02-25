@@ -1,7 +1,7 @@
 # DAILY_REPORT
 
 日報をIssuesに書きます。
-![alt text](image.png)
+![alt text](image-1.png)
 # SRE
 ## SLI(Service Level Indicator) 指標
 - 爆睡率= $睡眠できた日数\over全日数$
@@ -47,7 +47,6 @@
   - floor(今月の日数-(今月の日数*目標入浴率))-(今日の日数-入浴した数)
 
 - 一つでも指標のSLOを下回った場合、反省・対策を行います。
-- 
 
 ## 各指標の考察
 - お風呂に入る→眠くなる→早寝率が上がる
