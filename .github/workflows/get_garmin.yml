@@ -1,5 +1,5 @@
-name: DB Insert
-run-name: DB Insert ${{github.run_number}}
+name: Get Garmin
+run-name: Get Garmin ${{github.run_number}}
 on:
   schedule:
   #   # 午前12時(JST)
@@ -28,7 +28,7 @@ jobs:
       - name: Save CA certificate
         run: echo "${{ secrets.TIDB_CA }}" > tidb_ca.pem
 
-      - name: Run Python
+      - name: Run PythonGet Garmin
         env:
           TIDB_HOST: ${{secrets.TIDB_HOST}}
           TIDB_PORT: ${{secrets.TIDB_PORT}}
