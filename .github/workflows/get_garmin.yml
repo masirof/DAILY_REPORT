@@ -37,4 +37,4 @@ jobs:
           TIDB_DB_NAME: ${{secrets.TIDB_DB_NAME}}
           TIDB_CA: tidb_ca.pem
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: python get_garmin.py
+        run: python get_garmin_api.py
