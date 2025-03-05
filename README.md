@@ -1,7 +1,7 @@
 # DAILY_REPORT
 
 日報をIssuesに書きます。
-![alt text](image-1.png)
+![alt text](image.png)
 # SRE
 ## SLI(Service Level Indicator) 指標
 - 爆睡率= $睡眠できた日数\over全日数$
